@@ -41,3 +41,4 @@ Permite registrarse, iniciar sesión y crear, editar, completar y eliminar tarea
 - No hacer commit ni push.
 
 ## Lecciones aprendidas
+"La lógica de negocio se mantiene separada de las rutas en el módulo servicios.py."

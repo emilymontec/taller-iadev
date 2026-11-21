@@ -2,7 +2,8 @@
 
 Me comprometo a cumplir las siguientes reglas durante el desarrollo de este proyecto:
 
-1. Uso solo las herramientas de IA del curso. Leo las skills y los servidores MCP de terceros antes de instalarlos.
+1. Uso solo las herramientas de IA del curso. Leo las skills y los servidores MCP de terceros antes
+de instalarlos.
 2. No comparto con la IA datos personales, contraseñas ni claves.
 3. Declaro en cada entrega el uso relevante de IA y guardo los prompts en `/prompts`.
 4. Respondo por todo lo que entrego, lo haya escrito yo o la IA.
@@ -13,6 +14,9 @@ Me comprometo a cumplir las siguientes reglas durante el desarrollo de este proy
 | --- | --- |
 | (complete) | (complete) |
 
-**Nombre:** (complete)
+## Aceptación
+Leí esta política y la acepto. Respondo por todo lo que entrego, lo haya escrito o no la IA.
 
-**Fecha:** (complete)
+**Nombre:** Emily Monterrosa
+
+**Fecha:** 21-11-2026
