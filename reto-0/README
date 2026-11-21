@@ -1,0 +1,34 @@
+# Día a día
+
+Aplicación web en Python para gestionar tareas con cuentas individuales. Cada usuario
+puede crear, editar, completar y eliminar sus propias tareas.
+
+## Requisitos
+
+- Python 3.10 o posterior
+
+## Instalación y ejecución
+
+En PowerShell, desde esta carpeta:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+flask --app app run --debug
+```
+
+Abre <http://127.0.0.1:5000>. La base SQLite `tasks.db` se crea automáticamente.
+Las claves se leen desde el archivo `.env` mediante `os.environ`. Abre `.env` y
+establece un `SECRET_KEY` privado estable antes de usar la aplicación; no uses el
+modo debug en producción.
+
+## Pruebas
+
+```powershell
+pytest
+```
+
+Las contraseñas se almacenan mediante hashes y las rutas de tareas comprueban que el
+recurso pertenezca a la cuenta autenticada. Los formularios incluyen protección CSRF.

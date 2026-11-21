@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Mis tareas{% endblock %}
+{% block content %}
+<section class="tasks-page">
+  <div class="tasks-heading">
+    <div>
+      <p class="eyebrow">TU ESPACIO · {{ current_user.username }}</p>
+      <h1>Lo que tienes<br><em>entre manos.</em></h1>
+    </div>
+    <a class="primary-button add-button" href="{{ url_for('create_task') }}"><span aria-hidden="true">+</span> Nueva tarea</a>
+  </div>
+
+  <div class="summary-line">
+    <span>{{ total }} {{ "tareas" if total != 1 else "tarea" }}</span>
+    <span class="summary-divider" aria-hidden="true"></span>
+    <span>{{ completed }} {{ "completadas" if completed != 1 else "completada" }}</span>
+    {% if total %}<span class="progress-track" role="img" aria-label="{{ completed }} de {{ total }} tareas completadas"><span style="width: {{ (completed / total * 100)|round }}%"></span></span>{% endif %}
+  </div>
+
+  {% if tasks %}
+    <div class="task-list">
+      {% for task in tasks %}
+        <article class="task-row {% if task.completed %}is-complete{% endif %}">
+          <form method="post" action="{{ url_for('toggle_task', task_id=task.id) }}" class="completion-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="check-button" type="submit" aria-label="{{ 'Marcar como pendiente' if task.completed else 'Completar' }}: {{ task.title }}">{% if task.completed %}<span aria-hidden="true">✓</span>{% endif %}</button>
+          </form>
+          <div class="task-copy">
+            <h2>{{ task.title }}</h2>
+            {% if task.description %}<p>{{ task.description }}</p>{% endif %}
+          </div>
+          <div class="task-actions">
+            <a class="icon-button" href="{{ url_for('edit_task', task_id=task.id) }}" aria-label="Editar {{ task.title }}" title="Editar tarea"><span aria-hidden="true">↗</span></a>
+            <form method="post" action="{{ url_for('delete_task', task_id=task.id) }}" onsubmit="return confirm('¿Eliminar esta tarea?')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="icon-button delete-button" type="submit" aria-label="Eliminar {{ task.title }}" title="Eliminar tarea"><span aria-hidden="true">×</span></button>
+            </form>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <span class="empty-mark" aria-hidden="true">✳</span>
+      <h2>Un comienzo tranquilo.</h2>
+      <p>Añade una tarea y empieza por ahí.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block shell_class %}auth-shell{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-intro">
+    <p class="eyebrow">UN PASO A LA VEZ</p>
+    <h1>Haz espacio<br>para lo que <em>importa.</em></h1>
+    <div class="intro-rule"></div>
+    <p class="intro-note">{{ "Tu día, en tus manos." if mode == "register" else "Qué bueno tenerte de vuelta." }}</p>
+  </div>
+  <div class="auth-panel">
+    <p class="eyebrow">{{ "EMPIEZA AQUÍ" if mode == "register" else "TU ESPACIO PERSONAL" }}</p>
+    <h2>{{ page_title }}</h2>
+    <form method="post" class="form-stack" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="field">
+        {{ form.username.label }}
+        {{ form.username(autocomplete="username", placeholder="Por ejemplo, luna", autofocus=true) }}
+        {% for error in form.username.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      </div>
+      <div class="field">
+        {{ form.password.label }}
+        {% if mode == "register" %}
+          {{ form.password(autocomplete="new-password", placeholder="8 caracteres como mínimo") }}
+        {% else %}
+          {{ form.password(autocomplete="current-password", placeholder="Tu contraseña") }}
+        {% endif %}
+        {% for error in form.password.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      </div>
+      {{ form.submit(class="primary-button full-button") }}
+    </form>
+    <p class="auth-switch">
+      {{ "¿Ya tienes cuenta?" if mode == "register" else "¿Aún no tienes cuenta?" }}
+      <a href="{{ url_for('login' if mode == 'register' else 'register') }}">{{ "Inicia sesión" if mode == "register" else "Regístrate" }}</a>
+    </p>
+  </div>
+</section>
+{% endblock %}
