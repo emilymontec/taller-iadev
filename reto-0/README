@@ -15,14 +15,13 @@ En PowerShell, desde esta carpeta:
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-Copy-Item .env.example .env
+$env:SECRET_KEY = [guid]::NewGuid().ToString()
 flask --app app run --debug
 ```
 
 Abre <http://127.0.0.1:5000>. La base SQLite `tasks.db` se crea automáticamente.
-Las claves se leen desde el archivo `.env` mediante `os.environ`. Abre `.env` y
-establece un `SECRET_KEY` privado estable antes de usar la aplicación; no uses el
-modo debug en producción.
+Para conservar las sesiones entre reinicios, configura `SECRET_KEY` con un valor
+privado estable; no uses el modo debug en producción.
 
 ## Pruebas
 
