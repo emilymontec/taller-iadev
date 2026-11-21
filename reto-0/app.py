@@ -1,18 +1,25 @@
 import os
 import secrets
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, url_for
-from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
+from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError
-from werkzeug.security import check_password_hash, generate_password_hash
 
 load_dotenv()
 
@@ -42,7 +49,7 @@ class Task(db.Model):
     title = db.Column(db.String(160), nullable=False)
     description = db.Column(db.Text, nullable=False, default="")
     completed = db.Column(db.Boolean, nullable=False, default=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(UTC))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, index=True)
 
 
@@ -160,7 +167,7 @@ def create_app(test_config=None):
         if form.validate_on_submit():
             task = Task(
                 title=form.title.data.strip(),
-                description=form.description.data.strip(),
+                description=(form.description.data or "").strip(),
                 user_id=current_user.id,
             )
             db.session.add(task)
@@ -180,7 +187,7 @@ def create_app(test_config=None):
         form = TaskForm(obj=task)
         if form.validate_on_submit():
             task.title = form.title.data.strip()
-            task.description = form.description.data.strip()
+            task.description = (form.description.data or "").strip()
             task.completed = form.completed.data
             db.session.commit()
             flash("Cambios guardados.", "success")

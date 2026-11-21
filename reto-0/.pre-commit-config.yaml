@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Ruff
+        entry: ruff check
+        language: system
+        files: ^reto-0/
+        types: [python]
+      - id: pytest
+        name: Pruebas
+        entry: python -m pytest -q -o pythonpath=reto-0 reto-0/tests
+        language: system
+        pass_filenames: false
